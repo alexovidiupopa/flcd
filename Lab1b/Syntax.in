@@ -1,0 +1,25 @@
+Alex Ovidiu Popa 
+936/1 
+
+program = "go" cmpdstmt
+declaration = type " " IDENTIFIER
+simpletype = "number" | "string"
+arraydecl = simpletype " " "array" "[" integer "]"
+type  = simpletype|arraydecl
+cmpdstmt = "{" stmtlist "}"
+stmtlist = stmt | stmt ";" stmtlist
+stmt = simplstmt | structstmt
+simplstmt = (assignstmt | iostmt | declaration) ";" 
+structstmt = cmpdstmt | ifstmt | whilestmt | forstmt
+ifstmt = "if" condition stmt ["else" stmt]
+forstmt = "for" forheader stmt 
+forheader = "(" "number" assignstmt ";" condition ";" assignstmt ")"
+whilestmt = "while" condition stmt
+assignstmt = IDENTIFIER "=" expression
+expression = [expression("+"|"-")] term 
+term = term("*" | "/") factor | factor
+factor = "(" expression ")" | integer | IDENTIFIER | IndexedIdentifier
+IndexedIdentifier = IDENTIFIER "[" integer "]"
+iostmt = ("std::cin" ">>" IDENTIFIER) | ("std::cout" "<<" (IDENTIFIER | CONSTANT)) 
+condition = "(" expression RELATION expression ")"
+RELATION = "<" | "<=" | "==" | "!=" | ">=" | ">"
