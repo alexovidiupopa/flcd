@@ -1,0 +1,21 @@
+go{
+number a;
+number b;
+number c;
+number bca;
+number acb;
+cin>>a;
+cin>>b;
+cin>>c;
+number max ;
+if(a>b and a>c){
+max = a;
+}
+if(b>a and b>c){
+max=b;
+}
+if(c>a and c>b){
+max=c;
+}
+cout<<max;
+}

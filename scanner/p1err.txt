@@ -1,0 +1,22 @@
+go{
+number 5$a;
+number b;
+number c;
+cin>> 5$a;
+cin>>b;
+cin>>c;
+number max ;
+if(5$a >b and 5$a >c){
+max = 5$a;
+}
+if(b> 5$a and b>c){
+max=b;
+}
+if(c> 5$a and c>b){
+max=c;
+}
+string message;
+message='number is;
+cout<<message;
+cout<<max;
+}

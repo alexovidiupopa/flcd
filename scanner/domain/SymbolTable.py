@@ -10,7 +10,7 @@ class ST:
         return str(self.__ht)
 
     def add(self, key):
-        self.__ht.add(key)
+        return self.__ht.add(key)
 
     def contains(self, key):
         return self.__ht.contains(key)
