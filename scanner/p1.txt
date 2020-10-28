@@ -2,6 +2,7 @@ go{
 number a;
 number b;
 number c;
+a=+2;
 number bca;
 number acb;
 cin>>a;
