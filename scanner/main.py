@@ -1,6 +1,8 @@
 from domain.ProgramInternalForm import PIF
 from domain.Scanner import *
 from domain.SymbolTable import ST
+from domain.FiniteAutomata import FiniteAutomata
+
 
 class Main:
 
@@ -11,8 +13,10 @@ class Main:
 
     def run(self):
         readFile()
-        fileName = "p1err.txt"
+        fileName = "p1.txt"
         exceptionMessage = ""
+        faConstant = FiniteAutomata.readFromFile('fa-constant.in')
+        faIdentifier = FiniteAutomata.readFromFile('fa-identifier.in')
 
         with open(fileName, 'r') as file:
             lineCounter = 0
@@ -32,10 +36,10 @@ class Main:
                             continue
                         else:
                             exceptionMessage += 'Lexical error at token ' + tokens[i] + ', at line ' + str(lineCounter) + "\n"
-                    elif self.scanner.isIdentifier(tokens[i]):
+                    elif faIdentifier.isAccepted(tokens[i]):
                         id = self.st.add(tokens[i])
                         self.pif.add("id", id)
-                    elif self.scanner.isConstant(tokens[i]):
+                    elif faConstant.isAccepted(tokens[i]):
                         const = self.st.add(extra+tokens[i])
                         extra = ''
                         self.pif.add("const", const)

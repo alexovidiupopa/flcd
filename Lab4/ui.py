@@ -23,6 +23,10 @@ class Console:
     def __checkDFA(self):
         print(self.fa.isDfa())
 
+    def __checkAccepted(self):
+        seq = input()
+        print(self.fa.isAccepted(seq))
+
     def __displayMenu(self):
         print("1.Read FA from file")
         print("2.Display FA")
@@ -31,10 +35,12 @@ class Console:
         print("5.Display FA transitions")
         print("6.Display FA final states")
         print("7.Check DFA")
+        print("8.Check accepted sequence")
 
     def run(self):
         cmds = {'1':self.__readFA,'2':self.__displayAll,'3':self.__displayStates,'4':self.__displayAlphabet,
-                '5':self.__displayTransitions, '6':self.__displayFinalStates, '7':self.__checkDFA}
+                '5':self.__displayTransitions, '6':self.__displayFinalStates, '7':self.__checkDFA,
+                '8':self.__checkAccepted}
         exit = False
         while not exit:
             self.__displayMenu()
