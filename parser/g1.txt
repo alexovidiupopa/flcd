@@ -1,7 +1,9 @@
-N = { S, A }
-E = { a, b }
+N = { S, A, B, C }
+E = { (, ), +, *, i }
 S = S
 P = {
-	S -> aA | E,
-	A -> a
+	S -> AB,
+	A -> (S) | iC,
+	B -> +S | E,
+	C -> *A | E
 }

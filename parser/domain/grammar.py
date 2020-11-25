@@ -8,30 +8,51 @@ class Grammar:
         self.S = S
 
     @staticmethod
+    def validate(N, E, P, S):
+        if S not in N:
+            return False
+        for key in P.keys():
+            if key not in N:
+                return False
+            for move in P[key]:
+                for char in move:
+                    if char not in N and char not in E and char != 'E':
+                        return False
+        return True
+
+    @staticmethod
     def parseLine(line):
         return [value.strip() for value in line.strip().split('=')[1].strip()[1:-1].strip().split(',')]
 
     @staticmethod
     def fromFile(fileName):
+
         with open(fileName) as file:
             N = Grammar.parseLine(file.readline())
             E = Grammar.parseLine(file.readline())
             S = file.readline().split('=')[1].strip()
             P = Grammar.parseRules(Grammar.parseLine(''.join([line for line in file])))
 
+            #if not Grammar.validate(N, E, P, S):
+             #   raise Exception("Wrong input file.")
+
             return Grammar(N, E, P, S)
 
     @staticmethod
     def parseRules(rules):
-        result = []
-
+        result = {}
+        index = 1
         for rule in rules:
             lhs, rhs = rule.split('->')
             lhs = lhs.strip()
             rhs = [value.strip() for value in rhs.split('|')]
 
             for value in rhs:
-                result.append((lhs, value))
+                if lhs in result.keys():
+                    result[lhs].append((value,index))
+                else:
+                    result[lhs] = [(value,index)]
+                index+=1
 
         return result
 
@@ -44,9 +65,15 @@ class Grammar:
     def getProductionsFor(self, nonTerminal):
         if not self.isNonTerminal(nonTerminal):
             raise Exception('Can only show productions for non-terminals')
+        for key in self.P.keys():
+            if key == nonTerminal:
+                return self.P[key]
 
-        return [prod for prod in self.P if prod[0] == nonTerminal]
-
+    def getProductionForIndex(self, index):
+        for key, value in self.P.items():
+            for v in value:
+                if v[1] == index:
+                    return key, v[0]
     def __str__(self):
         return 'N = { ' + ', '.join(self.N) + ' }\n' \
                + 'E = { ' + ', '.join(self.E) + ' }\n' \

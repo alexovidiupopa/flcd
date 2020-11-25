@@ -1,5 +1,6 @@
 from domain.grammar import Grammar
 from domain.parser import Parser
+from domain.tree import Tree
 
 
 class UI:
@@ -24,6 +25,8 @@ class UI:
                 self.printProductionsForNonTerminal()
             elif cmd == "6":
                 self.printParser()
+            elif cmd == "7":
+                self.evaluateSequence()
 
     def readGrammar(self):
         self.grammar = Grammar.fromFile('g1.txt')
@@ -38,7 +41,6 @@ class UI:
     def printProductions(self):
         print(self.grammar.P)
 
-
     def printProductionsForNonTerminal(self):
         print(">>Nonterminal:")
         nonterm = input()
@@ -47,3 +49,16 @@ class UI:
     def printParser(self):
         self.parser = Parser(self.grammar)
         print(self.parser.firstSet)
+        print(self.parser.followSet)
+        for k in self.parser.table.keys():
+            print(k, '->', self.parser.table[k])
+
+    def evaluateSequence(self):
+        result = self.parser.evaluateSequence("(i)+i")
+        if result is None:
+            print("Sequence not accepted")
+        else:
+            print(result)
+        t = Tree(self.grammar)
+        t.build(result)
+        t.print_table()
