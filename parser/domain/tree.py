@@ -13,34 +13,46 @@ class Tree:
         self.root = None
         self.grammar = grammar
         self.crt = 1
+        self.ws = ""
+        self.indexInTreeSequence = 1
 
     def build(self, ws):
-        nonterminal, rhs = self.grammar.getProductionForIndex(int(ws[0]))
+        print(ws)
+        print(len(ws))
+        self.ws = ws
+        nonterminal, rhs = self.grammar.getProductionForIndex(int(self.ws[0]))
         self.root = Node(nonterminal, None, None)
-        self.root.child = self._build_recursive(ws[1:], rhs)
+        self.root.child = self._build_recursive(rhs)
         return self.root
 
-    def _build_recursive(self, ws, rhs):
-        if rhs == "" or ws == "":
+    def _build_recursive(self, currentTransition):
+        if (self.indexInTreeSequence == len(self.ws) and currentTransition == 'E'):
+           pass
+        elif currentTransition == "" or self.indexInTreeSequence >= len(self.ws):
             return None
         # ws = 1213....
-
-        if rhs[0] in self.grammar.E:
-            node = Node(rhs[0], None, None)
-            node.right_sibling = self._build_recursive(ws, rhs[1:])
-            print(node.value)
+        # print("ws: " + ws)
+        # print("rhs: " + str(rhs))
+        currentSymbol = currentTransition[0]
+        if currentSymbol in self.grammar.E:
+            node = Node(currentSymbol, None, None)
+            print("current value: " + node.value)
+            print("finished terminal branch")
+            node.right_sibling = self._build_recursive(currentTransition[1:])
             return node
-        elif rhs[0] in self.grammar.N:
-            index = ws[0]
-            nonterminal, cpy = self.grammar.getProductionForIndex(int(index))
-            node = Node(rhs[0], None, None)
-            node.child = self._build_recursive(ws[1:], cpy)
-            node.right_sibling = self._build_recursive(ws, rhs[1:])
-            print(node.value)
+        elif currentSymbol in self.grammar.N:
+            transitionNumber = self.ws[self.indexInTreeSequence]
+            _, production = self.grammar.getProductionForIndex(int(transitionNumber))
+            node = Node(currentSymbol, None, None)
+            print("current value: " + node.value)
+            print("finished nonterminal branch")
+            self.indexInTreeSequence += 1
+            node.child = self._build_recursive(production)
+            node.right_sibling = self._build_recursive(currentTransition[1:])
             return node
         else:
-            print('E')
-            return None
+            print('E branch')
+            return Node("E", None, None)
 
     def print_table(self):
         self._bfs(self.root)
