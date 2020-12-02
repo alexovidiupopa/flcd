@@ -34,7 +34,7 @@ class Parser:
         isSetChanged = False
         for key, value in self.grammar.P.items():
             for v in value:
-                v = v[0]
+                v = self.grammar.splitRhs(v[0])
                 copySet = self.firstSet[key]
                 copySet = copySet.union(self.innerLoop(copySet, v, ['E']))
 
@@ -46,7 +46,7 @@ class Parser:
             isSetChanged = False
             for key, value in self.grammar.P.items():
                 for v in value:
-                    v = v[0]
+                    v = self.grammar.splitRhs(v[0])
                     copySet = self.firstSet[key]
                     copySet = copySet.union(self.innerLoop(copySet, v, ['E']))
 
@@ -59,7 +59,7 @@ class Parser:
         isSetChanged = False
         for key, value in self.grammar.P.items():
             for v in value:
-                v = v[0]
+                v = self.grammar.splitRhs(v[0])
                 for i in range(len(v)):
                     if not self.grammar.isNonTerminal(v[i]):
                         continue
@@ -76,7 +76,7 @@ class Parser:
             isSetChanged = False
             for key, value in self.grammar.P.items():
                 for v in value:
-                    v = v[0]
+                    v = self.grammar.splitRhs(v[0])
                     for i in range(len(v)):
                         if not self.grammar.isNonTerminal(v[i]):
                             continue
@@ -98,7 +98,7 @@ class Parser:
             # value = (rhs, count)
             rowSymbol = key
             for v in value:
-                rule = v[0]
+                rule = self.grammar.splitRhs(v[0])
                 index = v[1]
                 for columnSymbol in terminals + ['E']:
                     pair = (rowSymbol, columnSymbol)
@@ -108,6 +108,7 @@ class Parser:
                         if pair not in self.table.keys():
                             self.table[pair] = v
                         else:
+                            print(pair)
                             print("Grammar is not LL(1).")
                             assert False
                     else:
@@ -132,7 +133,7 @@ class Parser:
         self.table[('$', '$')] = ('acc', -1)
 
     def evaluateSequence(self, sequence):
-        w = sequence
+        w = self.grammar.splitRhs(sequence)
         stack = [self.grammar.S, '$']
         output = ""
         while stack[0] != '$' and w:
@@ -148,6 +149,7 @@ class Parser:
                 else:
                     stack.pop(0)
                     rhs, index = self.table[(a, x)]
+                    rhs = self.grammar.splitRhs(rhs)
                     for i in range(len(rhs) - 1, -1, -1):
                         if rhs[i]!='E':
                             stack.insert(0, rhs[i])
@@ -155,7 +157,7 @@ class Parser:
             print(output)
         if stack[0] == '$':
             return None
-        elif w == "":
+        elif not w:
             while stack[0] != '$':
                 a = stack[0]
                 if (a, '$') in self.table.keys():

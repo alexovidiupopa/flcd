@@ -22,13 +22,13 @@ class Tree:
         self.ws = ws
         nonterminal, rhs = self.grammar.getProductionForIndex(int(self.ws[0]))
         self.root = Node(nonterminal, None, None)
-        self.root.child = self._build_recursive(rhs)
+        self.root.child = self._build_recursive(self.grammar.splitRhs(rhs))
         return self.root
 
     def _build_recursive(self, currentTransition):
-        if (self.indexInTreeSequence == len(self.ws) and currentTransition == 'E'):
+        if (self.indexInTreeSequence == len(self.ws) and currentTransition == ['E']):
            pass
-        elif currentTransition == "" or self.indexInTreeSequence >= len(self.ws):
+        elif currentTransition == [] or self.indexInTreeSequence >= len(self.ws):
             return None
         # ws = 1213....
         # print("ws: " + ws)
@@ -47,7 +47,7 @@ class Tree:
             print("current value: " + node.value)
             print("finished nonterminal branch")
             self.indexInTreeSequence += 1
-            node.child = self._build_recursive(production)
+            node.child = self._build_recursive(self.grammar.splitRhs(production))
             node.right_sibling = self._build_recursive(currentTransition[1:])
             return node
         else:

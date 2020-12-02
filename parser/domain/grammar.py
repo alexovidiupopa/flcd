@@ -27,7 +27,7 @@ class Grammar:
     @staticmethod
     def fromFile(fileName):
 
-        with open(fileName) as file:
+        with open(fileName, 'r') as file:
             N = Grammar.parseLine(file.readline())
             E = Grammar.parseLine(file.readline())
             S = file.readline().split('=')[1].strip()
@@ -42,7 +42,9 @@ class Grammar:
     def parseRules(rules):
         result = {}
         index = 1
+
         for rule in rules:
+            print(rule)
             lhs, rhs = rule.split('->')
             lhs = lhs.strip()
             rhs = [value.strip() for value in rhs.split('|')]
@@ -55,6 +57,9 @@ class Grammar:
                 index+=1
 
         return result
+
+    def splitRhs(self, prod):
+        return prod.split(' ')
 
     def isNonTerminal(self, value):
         return value in self.N
