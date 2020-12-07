@@ -96,12 +96,13 @@ class Parser:
 
         for key, value in self.grammar.P.items():
             # value = (rhs, count)
-            rowSymbol = key
+            rowSymbol = key # A
             for v in value:
-                rule = self.grammar.splitRhs(v[0])
+                rule = self.grammar.splitRhs(v[0]) # alpha
                 index = v[1]
-                for columnSymbol in terminals + ['E']:
-                    pair = (rowSymbol, columnSymbol)
+                for columnSymbol in terminals + ['E']:  # coloana/ a
+                    pair = (rowSymbol, columnSymbol)   # M(A, a)
+                    # rule 1 part 1
                     if rule[0] == columnSymbol and columnSymbol != 'E':
                         self.table[pair] = v
                     elif rule[0] in nonterminals and columnSymbol in self.firstSet[rule[0]]:
@@ -118,18 +119,22 @@ class Parser:
                                     b = '$'
                                 self.table[(rowSymbol, b)] = v
                         else:
+                            # rule 1 part 2
                             firsts = set()
                             for symbol in self.grammar.P[rowSymbol]:
                                 if symbol in nonterminals:
                                     firsts = firsts.union(self.firstSet[symbol])
                             if 'E' in firsts:
-                                for b in self.firstSet[rowSymbol]:
+                                for b in self.followSet[rowSymbol]:
                                     if b == 'E':
                                         b = '$'
                                     if (rowSymbol, b) not in self.table.keys():
                                         self.table[(rowSymbol, b)] = v
+        # rule 2
         for t in terminals:
             self.table[(t, t)] = ('pop', -1)
+
+        # rule 3
         self.table[('$', '$')] = ('acc', -1)
 
     def evaluateSequence(self, sequence):
@@ -151,11 +156,11 @@ class Parser:
                     rhs, index = self.table[(a, x)]
                     rhs = self.grammar.splitRhs(rhs)
                     for i in range(len(rhs) - 1, -1, -1):
-                        if rhs[i]!='E':
+                        if rhs[i] != 'E':
                             stack.insert(0, rhs[i])
                     output += str(index)
             print(output)
-        if stack[0] == '$':
+        if stack[0] == '$' and w:
             return None
         elif not w:
             while stack[0] != '$':

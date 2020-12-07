@@ -1,23 +1,30 @@
-N = { program, declaration, type, cmpdstmt, stmtlist, stmt, simplstmt, structstmt, ifstmt, forstmt, forheader, whilestmt, assignstmt, expression, term, factor, IndexedIdentifier, iostmt, condition, RELATION }
-E = { go, number, array, string, {, }, ;, +, -, *, /, (, ), while, for, if, eq, cin, cout, <<, >>, id, const, <, <=, ==, !=, >=, > }
+N = { program, declaration, type, typeTemp, cmpdstmt, stmtlist, stmt, stmtTemp, simplstmt, structstmt, ifstmt, tempIf, forstmt, forheader, whilestmt, assignstmt, arithmetic1, arithmetic2, multiply1, multiply2, expression, IndexedIdentifier, iostmt, condition, relation }
+E = { go, number, array, string, {, }, ;, +, -, *, /, (, ), while, for, if, else, cin, cout, <<, >>, id, const, <, <=, ==, !=, >=, >, eq }
 S = program
 P = {
     program -> go cmpdstmt,
-    declaration -> type id ;,
-    type  -> number | string | number array [ const ],
+    declaration -> type id,
+    type -> string | number typeTemp,
+    typeTemp -> E | array [ const ],
     cmpdstmt -> { stmtlist },
-    stmtlist -> stmt | stmt ; stmtlist,
+    stmtlist -> stmt stmtTemp ;,
+    stmtTemp -> E | stmtlist,
     stmt -> simplstmt | structstmt,
-    simplstmt -> ( assignstmt ) ; | ( iostmt ) ; | ( declaration ) ;,
+    simplstmt -> assignstmt ; | iostmt ; | declaration ;,
     structstmt -> cmpdstmt | ifstmt | whilestmt | forstmt,
-    ifstmt -> if condition stmt | if condition stmt else stmt,
+    ifstmt -> if condition stmt tempIf,
+    tempIf -> E | else stmt,
     forstmt -> for forheader stmt,
     forheader -> ( number assignstmt ; condition ; assignstmt ),
     whilestmt -> while condition stmt,
     assignstmt -> id eq expression,
-    expression -> term | expression + term,
-    term -> term | term * factor,
-    factor -> ( expression ) | integer | id | IndexedIdentifier,
-    IndexedIdentifier -> id [ integer ],
-    iostmt -> ( cin >> id ) | ( cout << id ) | ( cout << const )
+    expression -> arithmetic2 arithmetic1,
+    arithmetic1 -> + arithmetic2 arithmetic1 | - arithmetic2 arithmetic1 | E,
+    arithmetic2 -> multiply2 multiply1,
+    multiply1 -> * multiply2 multiply1 | / multiply2 multiply1 | E,
+    multiply2 -> ( expression ) | id | const,
+    IndexedIdentifier -> id [ const ],
+    iostmt -> cin >> id | cout << id | cout << const,
+    condition -> id relation const,
+    relation -> < | >= | == | != | >= | >
 }

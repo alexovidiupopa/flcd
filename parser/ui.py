@@ -42,6 +42,10 @@ class UI:
         self.g1 = Grammar.fromFile('g1.txt')
         print('Read g1')
 
+    def readG2(self):
+        self.g2 = Grammar.fromFile('g2.txt')
+        print('Read g2')
+
     def printNonTerminals(self):
         print(self.grammar.N)
 
@@ -109,17 +113,17 @@ class UI:
         pass
 
     def evaluateG2(self):
-        self.readGrammar()
+        self.readG2()
         self.p2 = Parser(self.g2)
         print(self.p2.firstSet)
         print(self.p2.followSet)
         for k in self.p2.table.keys():
             print(k, '->', self.p2.table[k])
-        result = self.p2.evaluateSequence(self.readSequence('seq.txt'))
+        result = self.p2.evaluateSequence(self.readSequence('pif.txt'))
         if result is None:
             print("Sequence not accepted")
         else:
             print(result)
-        t = Tree(self.grammar)
-        t.build(result)
-        t.print_table()
+            t = Tree(self.g2)
+            t.build(result)
+            t.print_table()
