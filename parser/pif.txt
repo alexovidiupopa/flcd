@@ -7,8 +7,14 @@ id
 eq
 const
 ;
-cin
->>
+if
+(
+id
+gt
+const
+)
+cout
+<<
 id
 ;
 }

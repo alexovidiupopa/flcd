@@ -158,7 +158,7 @@ class Parser:
                     for i in range(len(rhs) - 1, -1, -1):
                         if rhs[i] != 'E':
                             stack.insert(0, rhs[i])
-                    output += str(index)
+                    output += str(index) + " "
             print(output)
         if stack[0] == '$' and w:
             return None
@@ -166,6 +166,6 @@ class Parser:
             while stack[0] != '$':
                 a = stack[0]
                 if (a, '$') in self.table.keys():
-                    output += str(self.table[(a, '$')][1])
+                    output += str(self.table[(a, '$')][1]) + " "
                 stack.pop(0)
             return output

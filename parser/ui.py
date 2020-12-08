@@ -13,30 +13,10 @@ class UI:
         while True:
             print(">>")
             cmd = input()
-            if cmd == "1":
-                self.readGrammar()
-            elif cmd == "2":
-                self.printNonTerminals()
-            elif cmd == "3":
-                self.printTerminals()
-            elif cmd == "4":
-                self.printProductions()
-            elif cmd == "5":
-                self.printProductionsForNonTerminal()
-            elif cmd == "6":
-                self.printParser()
-            elif cmd == "7":
-                self.evaluateSequence()
-            elif cmd == "8":
-                self.evaluatePif()
-            elif cmd == "9":
+            if cmd == "g1":
                 self.evaluateG1()
-            elif cmd == "10":
+            elif cmd == "g2":
                 self.evaluateG2()
-
-    def readGrammar(self):
-        self.grammar = Grammar.fromFile('g1.txt')
-        print("Read grammar")
 
     def readG1(self):
         self.g1 = Grammar.fromFile('g1.txt')
@@ -46,54 +26,12 @@ class UI:
         self.g2 = Grammar.fromFile('g2.txt')
         print('Read g2')
 
-    def printNonTerminals(self):
-        print(self.grammar.N)
-
-    def printTerminals(self):
-        print(self.grammar.E)
-
-    def printProductions(self):
-        print(self.grammar.P)
-
-    def printProductionsForNonTerminal(self):
-        print(">>Nonterminal:")
-        nonterm = input()
-        print(self.grammar.getProductionsFor(nonterm))
-
-    def printParser(self):
-        self.parser = Parser(self.grammar)
-        print(self.parser.firstSet)
-        print(self.parser.followSet)
-        for k in self.parser.table.keys():
-            print(k, '->', self.parser.table[k])
-
     def readSequence(self, fname):
-        sequence=""
-        with open(fname,'r') as fin:
+        sequence = ""
+        with open(fname, 'r') as fin:
             for line in fin.readlines():
-                sequence+=line.strip() + " "
+                sequence += line.strip() + " "
         return sequence.strip()
-
-    def evaluateSequence(self):
-        result = self.parser.evaluateSequence("int")
-        if result is None:
-            print("Sequence not accepted")
-        else:
-            print(result)
-        t = Tree(self.grammar)
-        t.build(result)
-        t.print_table()
-
-    def evaluatePif(self):
-        seq = self.readSequence('pif.txt')
-        result = self.parser.evaluateSequence(seq)
-        if result is None:
-            print("Sequence not accepted")
-        else:
-            print(result)
-        t = Tree(self.grammar)
-        t.build(result)
-        t.print_table()
 
     def evaluateG1(self):
         self.readG1()
@@ -107,10 +45,10 @@ class UI:
             print("Sequence not accepted")
         else:
             print(result)
-        t = Tree(self.g1)
-        t.build(result)
-        t.print_table()
-        pass
+            t = Tree(self.g1)
+            t.build(result.strip().split(' '))
+            t.print_table()
+
 
     def evaluateG2(self):
         self.readG2()
@@ -125,5 +63,5 @@ class UI:
         else:
             print(result)
             t = Tree(self.g2)
-            t.build(result)
+            t.build(result.strip().split(' '))
             t.print_table()
