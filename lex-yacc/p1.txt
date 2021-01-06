@@ -1,29 +1,25 @@
-go{
+go
+{
 number a;
 number b;
 number c;
 a=+2;
 a=-10;
-b=+0;
 c=154;
 number bCBCA123;
 number acb;
-number 123abc;
 cin>>a;
 cin>>b;
 cin>>c;
-number max ;
-if(a>b and a>c){
-max = a;
+number max;
+if(a>b){
+max=a;
 }
-if(b>a and b>c){
+if(b>a){
 max=b;
 }
-if(c>a and c>b){
+if(c>a){
 max=c;
 }
 cout<<max;
-cout<<"ok";
-cout<<"alex;
-cout<<'asd';
 }
