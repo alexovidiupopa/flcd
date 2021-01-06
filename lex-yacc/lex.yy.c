@@ -354,8 +354,8 @@ static void yynoreturn yy_fatal_error ( const char* msg  );
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
-#define YY_NUM_RULES 46
-#define YY_END_OF_BUFFER 47
+#define YY_NUM_RULES 47
+#define YY_END_OF_BUFFER 48
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -365,7 +365,7 @@ struct yy_trans_info
 	};
 static const flex_int16_t yy_accept[133] =
     {   0,
-        0,    0,   47,   46,   40,   41,   37,   46,   44,   46,
+        0,    0,   48,   46,   40,   41,   37,   46,   44,   46,
        22,   23,   28,   26,   18,   27,   19,   29,   42,   15,
        16,   17,   30,   36,   31,   14,   14,   14,   14,   14,
        14,   14,   14,   14,   14,   14,   14,   24,   25,   20,
@@ -1062,29 +1062,34 @@ YY_RULE_SETUP
 case 42:
 YY_RULE_SETUP
 #line 68 "specif.lxi"
-{printf("Illegal constant at line %d\n", lines);}
+{printf("Illegal constant at line %d\n", lines); return -1;}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
 #line 70 "specif.lxi"
-{printf("Illegal size of the identifier at line %d\n", lines);}
+{printf("Illegal size of the identifier at line %d\n", lines); return -1;}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
 #line 72 "specif.lxi"
-{printf("Illegal identifier at line %d\n", lines);}
+{printf("Illegal identifier at line %d\n", lines); return -1;}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
 #line 74 "specif.lxi"
-{printf("Character of length >=2 at line %d\n", lines);}
+{printf("Character of length >=2 at line %d\n", lines); return -1;}
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
 #line 76 "specif.lxi"
+{printf("Illegal character at line %d\n", lines); return -1;}
+	YY_BREAK
+case 47:
+YY_RULE_SETUP
+#line 77 "specif.lxi"
 ECHO;
 	YY_BREAK
-#line 1088 "lex.yy.c"
+#line 1093 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2089,7 +2094,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 76 "specif.lxi"
+#line 77 "specif.lxi"
 
 
 

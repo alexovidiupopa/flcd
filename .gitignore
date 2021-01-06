@@ -1,7 +1,4 @@
-lex-yacc/lex.yy.c
-lex-yacc/specif
-lex-yacc/y.output
-lex-yacc/y.tab.c
+lex-yacc/*.c
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

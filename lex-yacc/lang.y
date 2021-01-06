@@ -79,15 +79,15 @@ simplstmt :  assignstmt | iostmt | declaration
 	 ; 
 structstmt :  cmpdstmt | ifstmt | whilestmt | forstmt
 	   ;
-ifstmt :  IF boolean_condition cmpdstmt tempIf
+ifstmt :  IF OPEN_ROUND_BRACKET boolean_condition CLOSED_ROUND_BRACKET cmpdstmt tempIf
        ;
 tempIf : /*Empty*/ | ELSE cmpdstmt
        ;
 forstmt :  FOR forheader cmpdstmt
        ;	
-forheader :  OPEN_ROUND_BRACKET NUMBER assignstmt SEMI_COLON boolean_condition SEMI_COLON assignstmt CLOSED_ROUND_BRACKET
+forheader :  OPEN_ROUND_BRACKET NUMBER assignstmt SEMI_COLON OPEN_ROUND_BRACKET boolean_condition CLOSED_ROUND_BRACKET SEMI_COLON assignstmt CLOSED_ROUND_BRACKET
 	  ;
-whilestmt :  WHILE boolean_condition cmpdstmt
+whilestmt :  WHILE OPEN_ROUND_BRACKET boolean_condition CLOSED_ROUND_BRACKET cmpdstmt
 	  ;
 assignstmt :  ID ATRIB expression
 	   ;
@@ -105,14 +105,14 @@ IndexedIdentifier :  ID OPEN_RIGHT_BRACKET CONST CLOSED_RIGHT_BRACKET
 		  ;
 iostmt :  CIN READ_OP ID | COUT WRITE_OP ID | COUT WRITE_OP CONST
       ; 
-condition : OPEN_ROUND_BRACKET expression GT expression CLOSED_ROUND_BRACKET |
-	 OPEN_ROUND_BRACKET expression GE expression CLOSED_ROUND_BRACKET | 
-	 OPEN_ROUND_BRACKET expression LT expression CLOSED_ROUND_BRACKET |
-	 OPEN_ROUND_BRACKET expression LE expression CLOSED_ROUND_BRACKET | 
-	 OPEN_ROUND_BRACKET expression EQ expression CLOSED_ROUND_BRACKET |
-	 OPEN_ROUND_BRACKET expression NE expression CLOSED_ROUND_BRACKET
+condition : expression GT expression |
+	 expression GE expression | 
+	 expression LT expression |
+	 expression LE expression | 
+	 expression EQ expression |
+	 expression NE expression
 	  ;
-boolean_condition : OPEN_ROUND_BRACKET condition boolean_cond_temp CLOSED_ROUND_BRACKET
+boolean_condition : condition boolean_cond_temp
 		  ;
 boolean_cond_temp : /*Empty*/ | AND boolean_condition | OR boolean_condition | XOR boolean_condition
 		 ; 

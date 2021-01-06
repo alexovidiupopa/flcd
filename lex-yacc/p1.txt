@@ -12,14 +12,17 @@ cin>>a;
 cin>>b;
 cin>>c;
 number max;
-if(a>b){
+if(a>b and a>c){
 max=a;
 }
-if(b>a){
+if(b>a and b>c){
 max=b;
 }
-if(c>a){
+if(c>a and c>b){
 max=c;
+}
+while(a==b or b!=c){
+cout<<"hello";
 }
 cout<<max;
 }
